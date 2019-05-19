@@ -253,7 +253,6 @@ public class Panel extends JPanel {
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		for (int i = 0; i < 3; i++) {
 			erase();
-			System.out.println("Loading " + (i + 1) + " / 50");
 		}
 
 		new Thread(new Runnable() {
