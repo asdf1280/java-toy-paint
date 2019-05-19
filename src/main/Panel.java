@@ -75,7 +75,7 @@ public class Panel extends JPanel {
 			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20);
 
 			g2.setColor(Color.black);
-			int strokei = (int) stroke;
+			int strokei = (int) currentStroke;
 			g2.drawOval(cursorX - strokei / 2, cursorY - strokei / 2, strokei, strokei);
 		}
 
@@ -193,7 +193,7 @@ public class Panel extends JPanel {
 		}
 	};
 
-	float stroke = 7f;
+	float currentStroke = 7f;
 
 	@SuppressWarnings("serial")
 	public Panel(JFrame frm) {
@@ -265,14 +265,14 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				stroke = (float) (Math.random() * 30) + 5;
+				currentStroke = (float) (Math.random() * 30) + 5;
 			}
 		});
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				stroke = 7f;
+				currentStroke = 7f;
 			}
 		}, InputEvent.SHIFT_DOWN_MASK);
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
@@ -379,7 +379,7 @@ public class Panel extends JPanel {
 	}
 
 	public void mouseDrag(MouseEvent e) {
-		g2.setStroke(new BasicStroke(stroke));
+		g2.setStroke(new BasicStroke(currentStroke));
 		g2.setColor(currentColor);
 		if (prevX == -1 && prevY == -1) {
 			prevX = e.getX();
