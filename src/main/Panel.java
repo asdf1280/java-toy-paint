@@ -31,7 +31,7 @@ import javax.swing.KeyStroke;
 
 /**
  * A content pane for this application.
- * Should be devided to multiple classes.
+ * Should be divided to multiple classes.
  * @author User
  *
  */
