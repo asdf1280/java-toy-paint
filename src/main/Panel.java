@@ -96,10 +96,10 @@ public class Panel extends JPanel {
 		g2.setColor(new Color(248, 245, 141));
 		g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight());
 
-		Random r = new Random(1);
+		Random random = new Random(1);
 		for (int i = 0; i < drawnImage.getHeight(); i++) {
 			g2.setColor(new Color(228, 225, 121));
-			g2.fillOval((int) (r.nextDouble() * screenSize.width), (int) (r.nextDouble() * screenSize.height), 2, 2);
+			g2.fillOval((int) (random.nextDouble() * screenSize.width), (int) (random.nextDouble() * screenSize.height), 2, 2);
 		}
 
 		g2.setColor(new Color(228, 225, 138));
