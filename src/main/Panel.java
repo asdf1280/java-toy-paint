@@ -42,20 +42,20 @@ public class Panel extends JPanel {
 		}
 	}
 
-	public static int a() {
+	public static int getRandomColorNumber() {
 		return (int) (Math.random() * 256);
 	}
 
-	public static Color ac() {
-		return new Color(a(), a(), a());
+	public static Color getRandomColor() {
+		return new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 	}
 
-	private BasicStroke ttbs = new BasicStroke(1);
-	public void as(int x, int y) {
+	private BasicStroke randomStroke = new BasicStroke(1);
+	public void drawRandomPixel(int x, int y) {
 //		int n = (int) (Math.random() * 10); 
-		c = ac();
+		c = getRandomColor();
 		g2.setColor(c);
-		g2.setStroke(ttbs);
+		g2.setStroke(randomStroke);
 		g2.drawLine(x, y, x, y);
 	}
 
@@ -228,7 +228,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c = new Color(a(), a(), a());
+				c = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 			}
 		});
 		d.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), obj);
@@ -291,7 +291,7 @@ public class Panel extends JPanel {
 			private void d(int x, int y, int x2, int y2) {
 				for (int yy = y; yy < y2; yy++) {
 					for (int xx = x; xx < x2; xx++) {
-						as(xx, yy);
+						drawRandomPixel(xx, yy);
 					}
 				}
 			}
