@@ -75,8 +75,8 @@ public class Panel extends JPanel {
 			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20);
 
 			g2.setColor(Color.black);
-			int strokei = (int) currentStroke;
-			g2.drawOval(cursorX - strokei / 2, cursorY - strokei / 2, strokei, strokei);
+			int stroke = (int) currentStroke;
+			g2.drawOval(cursorX - stroke / 2, cursorY - stroke / 2, stroke, stroke);
 		}
 
 		if (guide) {
