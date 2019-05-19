@@ -306,10 +306,10 @@ public class Panel extends JPanel {
 				int divided = (drawnImage.getHeight() - 170) / parts;
 
 				Holder<Integer> done = new Holder<Integer>(0);
-				for (int i = 0; i < parts; i++) {
-					int idx = i;
+				for (int index = 0; index < parts; index++) {
+					int i = index;
 					Thread thread = new Thread(() -> {
-						fillRandomPixel(0, 170 + (divided * idx), drawnImage.getWidth(), 170 + (divided * idx) + divided);
+						fillRandomPixel(0, 170 + (divided * i), drawnImage.getWidth(), 170 + (divided * i) + divided);
 						done.t++;
 					});
 					thread.setPriority(Thread.MAX_PRIORITY);
