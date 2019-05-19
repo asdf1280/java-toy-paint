@@ -151,10 +151,10 @@ public class Panel extends JPanel {
 
 		g2.setColor(Color.white);
 		g2.setFont(new Font("", 0, 100));
-		g2.drawString("Idea Paint Brush", 0, 80);
+		g2.drawString("Idea Paint Brush", 0, 80); // Draw title
 		g2.setStroke(new BasicStroke(4f));
 		g2.setFont(new Font("", 0, 30));
-		g2.drawString("M to see controls", 0, 130);
+		g2.drawString("M to see controls", 0, 130); // Draw guides information
 	}
 
 	/**
