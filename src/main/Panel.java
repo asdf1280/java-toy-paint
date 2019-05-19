@@ -88,14 +88,14 @@ public class Panel extends JPanel {
 
 		if (cursorX >= 0 && cursorY >= 0) {
 			g2.setColor(currentColor);
-			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20);
+			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20); // Draw current color around cursor
 
 			g2.setColor(Color.black);
 			int stroke = (int) currentStroke;
-			g2.drawOval(cursorX - stroke / 2, cursorY - stroke / 2, stroke, stroke);
+			g2.drawOval(cursorX - stroke / 2, cursorY - stroke / 2, stroke, stroke); // Draw an oval as big as stroke
 		}
 
-		if (guide) {
+		if (guide) { // Draw key guides
 			guides.draw((Graphics2D) g2, getWidth(), getHeight());
 		}
 	}
@@ -435,6 +435,7 @@ public class Panel extends JPanel {
 
 	/**
 	 * Simulates mouse drag.
+	 * 
 	 * @param e Mouse event
 	 */
 	public void mouseDrag(MouseEvent e) {
