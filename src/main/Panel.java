@@ -259,14 +259,14 @@ public class Panel extends JPanel {
 			@Override
 			public void run() {
 				while (true) {
-					repaint();
+					repaint(); //Repaint the app forever
 				}
 			}
 		}).start();
 
 		var rootPane = frame.getRootPane();
 		this.rootPane = rootPane;
-		Object obj = "hello";
+		Object obj = new Object(); // A unique token of key.
 		rootPane.getActionMap().put(obj, new AbstractAction() {
 
 			@Override
