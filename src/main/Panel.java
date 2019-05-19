@@ -29,6 +29,12 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+/**
+ * A content pane for this application.
+ * Should be devided to multiple classes.
+ * @author User
+ *
+ */
 public class Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
