@@ -212,36 +212,36 @@ public class Panel extends JPanel {
 			}
 		}).start();
 
-		var d = frm.getRootPane();
-		this.rootPane = d;
+		var rootPane = frm.getRootPane();
+		this.rootPane = rootPane;
 		Object obj = "hello";
-		d.getActionMap().put(obj, new AbstractAction() {
+		rootPane.getActionMap().put(obj, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				erase();
 			}
 		});
-		d.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), obj);
+		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), obj);
 		obj = new Object();
-		d.getActionMap().put(obj, new AbstractAction() {
+		rootPane.getActionMap().put(obj, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				c = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 			}
 		});
-		d.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), obj);
+		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), obj);
 
 		obj = new Object();
-		d.getActionMap().put(obj, new AbstractAction() {
+		rootPane.getActionMap().put(obj, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				c = new Color(0, 0, 0);
 			}
 		});
-		d.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), obj);
+		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), obj);
 
 		addHotkey(KeyEvent.VK_M, false, new AbstractAction() {
 
