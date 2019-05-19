@@ -281,9 +281,9 @@ public class Panel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ImageIO.write(drawnImage, "png", new File(System.currentTimeMillis() + ".png"));
-				} catch (IOException e1) {
+				} catch (IOException exception) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					exception.printStackTrace();
 				}
 			}
 		}, InputEvent.CTRL_DOWN_MASK);
