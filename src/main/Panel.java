@@ -30,8 +30,8 @@ import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
 /**
- * A content pane for this application.
- * Should be divided to multiple classes.
+ * A content pane for this application. Should be divided to multiple classes.
+ * 
  * @author User
  *
  */
@@ -51,12 +51,26 @@ public class Panel extends JPanel {
 		return (int) (Math.random() * 256);
 	}
 
+	/**
+	 * Returns a randomized color.
+	 * 
+	 * @return a random color.
+	 */
 	public static Color getRandomColor() {
 		return new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 	}
 
-	private BasicStroke randomStroke = new BasicStroke(1);
+	/**
+	 * A stroke that used while drawing random pixel.
+	 */
+	private final BasicStroke randomStroke = new BasicStroke(1);
 
+	/**
+	 * Draw a random color to specified location on the image.
+	 * 
+	 * @param x X of the point
+	 * @param y Y of the point
+	 */
 	public void drawRandomPixel(int x, int y) {
 		currentColor = getRandomColor();
 		g2.setColor(currentColor);
@@ -86,9 +100,15 @@ public class Panel extends JPanel {
 		}
 	}
 
+	/**
+	 * The previous location of cursor.
+	 */
 	int prevX = -1, prevY = -1;
 	Graphics2D g2 = drawnImage.createGraphics();
 
+	/**
+	 * Clears the board and paint a new pattern. This cannot be undone.
+	 */
 	public void erase() {
 		g2.clearRect(0, 0, drawnImage.getWidth(), drawnImage.getHeight());
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -117,8 +137,14 @@ public class Panel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Current location of cursor.
+	 */
 	int cursorX = -5, cursorY = -5;
 
+	/**
+	 * Draw overlay to image.
+	 */
 	public void overLay() {
 		g2.setColor(new Color(53, 35, 28));
 		g2.fillRect(0, 0, 10000, 170);
@@ -131,12 +157,24 @@ public class Panel extends JPanel {
 		g2.drawString("M to see controls", 0, 130);
 	}
 
+	/**
+	 * Current color to draw.
+	 */
 	private Color currentColor = new Color(0, 0, 0);
+	/**
+	 * Whether show key guides.
+	 */
 	private boolean guide = false;
+	/**
+	 * Drawer of guides. It will draw guides when called.
+	 */
 	private final Drawer guides = new Drawer() {
 		long showed = 0;
 
 		@Override
+		/**
+		 * Draw key guides to specified Graphics2d.
+		 */
 		public void draw(Graphics2D g2, int width, int height) {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
@@ -190,15 +228,26 @@ public class Panel extends JPanel {
 			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 		}
 
+		/**
+		 * Turn on or off the guides.
+		 */
 		@Override
 		public void toggle(boolean tg) {
 			showed = System.currentTimeMillis();
 		}
 	};
 
+	/**
+	 * The current stroke.
+	 */
 	float currentStroke = 7f;
 
 	@SuppressWarnings("serial")
+	/**
+	 * Default constructor of Panel
+	 * 
+	 * @param frame The Window.
+	 */
 	public Panel(JFrame frame) {
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		for (int i = 0; i < 3; i++) {
@@ -358,10 +407,25 @@ public class Panel extends JPanel {
 
 	JRootPane rootPane;
 
+	/**
+	 * Register a hotkey to JRootPane
+	 * 
+	 * @param keycode Unique number of a key
+	 * @param release Whether call this action when key is released
+	 * @param a       an action to execute
+	 */
 	public void addHotkey(int keycode, boolean release, Action a) {
 		addHotkey(keycode, release, a, 0);
 	}
 
+	/**
+	 * Register a hotkey to JRootPane
+	 * 
+	 * @param keycode  Unique number of a key
+	 * @param release  Whether call this action when key is released
+	 * @param a        an action to execute
+	 * @param modifier Key modifier
+	 */
 	public void addHotkey(int keycode, boolean release, Action a, int modifier) {
 		var obj = new Object();
 		rootPane.getActionMap().put(obj, a);
@@ -369,6 +433,10 @@ public class Panel extends JPanel {
 				obj);
 	}
 
+	/**
+	 * Simulates mouse drag.
+	 * @param e Mouse event
+	 */
 	public void mouseDrag(MouseEvent e) {
 		g2.setStroke(new BasicStroke(currentStroke));
 		g2.setColor(currentColor);
