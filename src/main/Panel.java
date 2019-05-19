@@ -38,7 +38,6 @@ public class Panel extends JPanel {
 		try {
 			material = ImageIO.read(getClass().getResourceAsStream("/main/material.png"));
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -52,7 +51,6 @@ public class Panel extends JPanel {
 
 	private BasicStroke randomStroke = new BasicStroke(1);
 	public void drawRandomPixel(int x, int y) {
-//		int n = (int) (Math.random() * 10); 
 		currentColor = getRandomColor();
 		g2.setColor(currentColor);
 		g2.setStroke(randomStroke);
@@ -66,9 +64,6 @@ public class Panel extends JPanel {
 		g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 		g2.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 		g2.drawImage(drawnImage, 0, 0, null);
-
-//		g.setColor(c);
-//		g.fillRect(0, 140, 100, 30);
 
 		if (cursorX >= 0 && cursorY >= 0) {
 			g2.setColor(currentColor);
@@ -282,7 +277,6 @@ public class Panel extends JPanel {
 				try {
 					ImageIO.write(drawnImage, "png", new File(System.currentTimeMillis() + ".png"));
 				} catch (IOException exception) {
-					// TODO Auto-generated catch block
 					exception.printStackTrace();
 				}
 			}
