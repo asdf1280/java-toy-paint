@@ -341,24 +341,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight() - 170); // Randomizes the image
-				g2.setStroke(new BasicStroke(1));
-
-				int parts = Runtime.getRuntime().availableProcessors() - 1;
-				parts = drawnImage.getHeight();
-				int divided = (drawnImage.getHeight() - 170) / parts;
-
-				Holder<Integer> done = new Holder<Integer>(0);
-				for (int index = 0; index < parts; index++) {
-					int i = index;
-					Thread thread = new Thread(() -> {
-						fillRandomPixel(0, 170 + (divided * i), drawnImage.getWidth(), 170 + (divided * i) + divided);
-						done.t++;
-					});
-					thread.setPriority(Thread.MAX_PRIORITY);
-					thread.start();
-				}
-				fillRandomPixel(0, 170 + (divided * parts) + divided, drawnImage.getWidth(), drawnImage.getHeight());
+				fillRandomPixel(0, 170, drawnImage.getWidth(), drawnImage.getHeight());
 			}
 		}, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK);
 
