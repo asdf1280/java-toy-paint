@@ -13,8 +13,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,6 +29,12 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+/**
+ * A content pane for this application. Should be divided to multiple classes.
+ * 
+ * @author User
+ *
+ */
 public class Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -38,7 +44,6 @@ public class Panel extends JPanel {
 		try {
 			material = ImageIO.read(getClass().getResourceAsStream("/main/material.png"));
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -46,15 +51,29 @@ public class Panel extends JPanel {
 		return (int) (Math.random() * 256);
 	}
 
+	/**
+	 * Returns a randomized color.
+	 * 
+	 * @return a random color.
+	 */
 	public static Color getRandomColor() {
 		return new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 	}
 
-	private BasicStroke randomStroke = new BasicStroke(1);
+	/**
+	 * A stroke that used while drawing random pixel.
+	 */
+	private final BasicStroke randomStroke = new BasicStroke(1);
+
+	/**
+	 * Draw a random color to specified location on the image.
+	 * 
+	 * @param x X of the point
+	 * @param y Y of the point
+	 */
 	public void drawRandomPixel(int x, int y) {
-//		int n = (int) (Math.random() * 10); 
-		c = getRandomColor();
-		g2.setColor(c);
+		currentColor = getRandomColor();
+		g2.setColor(currentColor);
 		g2.setStroke(randomStroke);
 		g2.drawLine(x, y, x, y);
 	}
@@ -67,26 +86,29 @@ public class Panel extends JPanel {
 		g2.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 		g2.drawImage(drawnImage, 0, 0, null);
 
-//		g.setColor(c);
-//		g.fillRect(0, 140, 100, 30);
-
 		if (cursorX >= 0 && cursorY >= 0) {
-			g2.setColor(c);
-			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20);
+			g2.setColor(currentColor);
+			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20); // Draw current color around cursor
 
 			g2.setColor(Color.black);
-			int strokei = (int) stroke;
-			g2.drawOval(cursorX - strokei / 2, cursorY - strokei / 2, strokei, strokei);
+			int stroke = (int) currentStroke;
+			g2.drawOval(cursorX - stroke / 2, cursorY - stroke / 2, stroke, stroke); // Draw an oval as big as stroke
 		}
 
-		if (guide) {
+		if (guide) { // Draw key guides
 			guides.draw((Graphics2D) g2, getWidth(), getHeight());
 		}
 	}
 
+	/**
+	 * The previous location of cursor.
+	 */
 	int prevX = -1, prevY = -1;
 	Graphics2D g2 = drawnImage.createGraphics();
 
+	/**
+	 * Clears the board and paint a new pattern. This cannot be undone.
+	 */
 	public void erase() {
 		g2.clearRect(0, 0, drawnImage.getWidth(), drawnImage.getHeight());
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -94,155 +116,177 @@ public class Panel extends JPanel {
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		g2.setColor(new Color(248, 245, 141));
-		g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight());
+		g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight()); // Draw top brown rectangle.
 
-		Random r = new Random(1);
+		Random random = new Random(1);
 		for (int i = 0; i < drawnImage.getHeight(); i++) {
 			g2.setColor(new Color(228, 225, 121));
-			g2.fillOval((int) (r.nextDouble() * screenSize.width), (int) (r.nextDouble() * screenSize.height), 2, 2);
+			g2.fillOval((int) (random.nextDouble() * screenSize.width), (int) (random.nextDouble() * screenSize.height),
+					2, 2); // Draw some random shapes on image
 		}
 
 		g2.setColor(new Color(228, 225, 138));
-		for (int i = 220; i <= drawnImage.getHeight(); i += 50) {
+		for (int i = 220; i <= drawnImage.getHeight(); i += 50) { // Draw lines
 			g2.drawLine(0, i, drawnImage.getWidth(), i);
 			g2.drawLine(0, i + 1, drawnImage.getWidth(), i + 1);
 		}
 
-		g2.drawImage(material, 0, 0, screenSize.width, screenSize.height, null);
+		g2.drawImage(material, 0, 0, screenSize.width, screenSize.height, null); // Draw material image
 
 		overLay();
 		repaint();
 	}
 
+	/**
+	 * Current location of cursor.
+	 */
 	int cursorX = -5, cursorY = -5;
 
+	/**
+	 * Draw overlay to image.
+	 */
 	public void overLay() {
 		g2.setColor(new Color(53, 35, 28));
 		g2.fillRect(0, 0, 10000, 170);
 
 		g2.setColor(Color.white);
 		g2.setFont(new Font("", 0, 100));
-		g2.drawString("Idea Paint Brush", 0, 80);
+		g2.drawString("Idea Paint Brush", 0, 80); // Draw title
 		g2.setStroke(new BasicStroke(4f));
 		g2.setFont(new Font("", 0, 30));
-		g2.drawString("M to see controls", 0, 130);
+		g2.drawString("M to see controls", 0, 130); // Draw guides information
 	}
 
-	private Color c = new Color(0, 0, 0);
+	/**
+	 * Current color to draw.
+	 */
+	private Color currentColor = new Color(0, 0, 0);
+	/**
+	 * Whether show key guides.
+	 */
 	private boolean guide = false;
+	/**
+	 * Drawer of guides. It will draw guides when called.
+	 */
 	private final Drawer guides = new Drawer() {
 		long showed = 0;
 
 		@Override
+		/**
+		 * Draw key guides to specified Graphics2d.
+		 */
 		public void draw(Graphics2D g2, int width, int height) {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-			int tm = (int) Math.min(System.currentTimeMillis() - showed, 128);
-			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), tm));
+			int fadeInTime = (int) Math.min(System.currentTimeMillis() - showed, 128);
+			g2.setColor(new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), fadeInTime));
 			g2.fillRoundRect(width / 2 - 250, height / 2 - 250, 500, 500, 40, 40);
 
-			int cy = height / 2 - 250;
+			int drawTextY = height / 2 - 250; // An Y location to draw guide texts at
 			g2.setColor(Color.white);
 			g2.setFont(new Font("Segoe UI", 3, 60));
 			FontMetrics fm = g2.getFontMetrics();
-			cy += fm.getHeight();
-			String txt = "Guides";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			drawTextY += fm.getHeight();
+			String txt = "Guides"; // Title text
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += 30;
+			drawTextY += 30; // 30px gap between title and guides
 
+			// Key guides
 			g2.setFont(new Font("Segoe UI", 0, 25));
 			fm = g2.getFontMetrics();
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Space: erase";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "R: change color random";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "E: reset color";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "M: see more controls";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "S: randomize stroke";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Shift + S: reset stroke";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Ctrl + S: Save your masterpiece";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Ctrl + Shift + S: Shit your masterpiece";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 		}
 
+		/**
+		 * Turn on or off the guides.
+		 */
 		@Override
 		public void toggle(boolean tg) {
 			showed = System.currentTimeMillis();
 		}
 	};
 
-	float stroke = 7f;
+	/**
+	 * The current stroke.
+	 */
+	float currentStroke = 7f;
 
 	@SuppressWarnings("serial")
-	public Panel(JFrame frm) {
+	/**
+	 * Default constructor of Panel
+	 * 
+	 * @param frame The Window.
+	 */
+	public Panel(JFrame frame) {
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			erase();
-			System.out.println("Loading " + (i + 1) + " / 50");
 		}
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (true) {
-					repaint();
+					repaint(); // Repaint the app forever
 				}
 			}
 		}).start();
 
-		var rootPane = frm.getRootPane();
+		var rootPane = frame.getRootPane();
 		this.rootPane = rootPane;
-		Object obj = "hello";
-		rootPane.getActionMap().put(obj, new AbstractAction() {
+		addHotkey(KeyEvent.VK_SPACE, false, new AbstractAction() { // When spacebar is pressed
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				erase();
 			}
 		});
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), obj);
-		obj = new Object();
-		rootPane.getActionMap().put(obj, new AbstractAction() {
+		addHotkey(KeyEvent.VK_R, false, new AbstractAction() { // When R is pressed etc...
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
+				currentColor = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 			}
 		});
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), obj);
-
-		obj = new Object();
-		rootPane.getActionMap().put(obj, new AbstractAction() {
+		addHotkey(KeyEvent.VK_E, false, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c = new Color(0, 0, 0);
+				currentColor = new Color(0, 0, 0);
 			}
 		});
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), obj);
-
 		addHotkey(KeyEvent.VK_M, false, new AbstractAction() {
 
 			@Override
@@ -265,14 +309,14 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				stroke = (float) (Math.random() * 30) + 5;
+				currentStroke = (float) (Math.random() * 30) + 5;
 			}
 		});
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				stroke = 7f;
+				currentStroke = 7f;
 			}
 		}, InputEvent.SHIFT_DOWN_MASK);
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
@@ -281,14 +325,13 @@ public class Panel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ImageIO.write(drawnImage, "png", new File(System.currentTimeMillis() + ".png"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (IOException exception) {
+					exception.printStackTrace();
 				}
 			}
 		}, InputEvent.CTRL_DOWN_MASK);
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
-			private void d(int x1, int y1, int x2, int y2) {
+			private void fillRandomPixel(int x1, int y1, int x2, int y2) {
 				for (int y = y1; y < y2; y++) {
 					for (int x = x1; x < x2; x++) {
 						drawRandomPixel(x, y);
@@ -298,28 +341,11 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight() - 170);
-				g2.setStroke(new BasicStroke(1));
-
-				int parts = Runtime.getRuntime().availableProcessors() - 1;
-				parts = drawnImage.getHeight();
-				int divided = (drawnImage.getHeight() - 170) / parts;
-
-				Holder<Integer> done = new Holder<Integer>(0);
-				for (int i = 0; i < parts; i++) {
-					int idx = i;
-					Thread tr = new Thread(() -> {
-						d(0, 170 + (divided * idx), drawnImage.getWidth(), 170 + (divided * idx) + divided);
-						done.t++;
-					});
-					tr.setPriority(Thread.MAX_PRIORITY);
-					tr.start();
-				}
-				d(0, 170 + (divided * parts) + divided, drawnImage.getWidth(), drawnImage.getHeight());
+				fillRandomPixel(0, 170, drawnImage.getWidth(), drawnImage.getHeight());
 			}
 		}, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK);
 
-		addMouseListener(new MouseListener() {
+		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -330,18 +356,6 @@ public class Panel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mouseDrag(e);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
@@ -368,19 +382,40 @@ public class Panel extends JPanel {
 
 	JRootPane rootPane;
 
+	/**
+	 * Register a hotkey to JRootPane
+	 * 
+	 * @param keycode Unique number of a key
+	 * @param release Whether call this action when key is released
+	 * @param a       an action to execute
+	 */
 	public void addHotkey(int keycode, boolean release, Action a) {
 		addHotkey(keycode, release, a, 0);
 	}
 
+	/**
+	 * Register a hotkey to JRootPane
+	 * 
+	 * @param keycode  Unique number of a key
+	 * @param release  Whether call this action when key is released
+	 * @param a        an action to execute
+	 * @param modifier Key modifier
+	 */
 	public void addHotkey(int keycode, boolean release, Action a, int modifier) {
 		var obj = new Object();
 		rootPane.getActionMap().put(obj, a);
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keycode, modifier, release), obj);
+		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keycode, modifier, release),
+				obj);
 	}
 
+	/**
+	 * Simulates mouse drag.
+	 * 
+	 * @param e Mouse event
+	 */
 	public void mouseDrag(MouseEvent e) {
-		g2.setStroke(new BasicStroke(stroke));
-		g2.setColor(c);
+		g2.setStroke(new BasicStroke(currentStroke));
+		g2.setColor(currentColor);
 		if (prevX == -1 && prevY == -1) {
 			prevX = e.getX();
 			prevY = e.getY();
