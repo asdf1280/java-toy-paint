@@ -53,8 +53,8 @@ public class Panel extends JPanel {
 	private BasicStroke randomStroke = new BasicStroke(1);
 	public void drawRandomPixel(int x, int y) {
 //		int n = (int) (Math.random() * 10); 
-		c = getRandomColor();
-		g2.setColor(c);
+		currentColor = getRandomColor();
+		g2.setColor(currentColor);
 		g2.setStroke(randomStroke);
 		g2.drawLine(x, y, x, y);
 	}
@@ -71,7 +71,7 @@ public class Panel extends JPanel {
 //		g.fillRect(0, 140, 100, 30);
 
 		if (cursorX >= 0 && cursorY >= 0) {
-			g2.setColor(c);
+			g2.setColor(currentColor);
 			g2.fillRect(cursorX + 5, cursorY + 5, 20, 20);
 
 			g2.setColor(Color.black);
@@ -128,7 +128,7 @@ public class Panel extends JPanel {
 		g2.drawString("M to see controls", 0, 130);
 	}
 
-	private Color c = new Color(0, 0, 0);
+	private Color currentColor = new Color(0, 0, 0);
 	private boolean guide = false;
 	private final Drawer guides = new Drawer() {
 		long showed = 0;
@@ -139,7 +139,7 @@ public class Panel extends JPanel {
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
 			int tm = (int) Math.min(System.currentTimeMillis() - showed, 128);
-			g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), tm));
+			g2.setColor(new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), tm));
 			g2.fillRoundRect(width / 2 - 250, height / 2 - 250, 500, 500, 40, 40);
 
 			int cy = height / 2 - 250;
@@ -228,7 +228,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
+				currentColor = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 			}
 		});
 		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), obj);
@@ -238,7 +238,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c = new Color(0, 0, 0);
+				currentColor = new Color(0, 0, 0);
 			}
 		});
 		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), obj);
@@ -380,7 +380,7 @@ public class Panel extends JPanel {
 
 	public void mouseDrag(MouseEvent e) {
 		g2.setStroke(new BasicStroke(stroke));
-		g2.setColor(c);
+		g2.setColor(currentColor);
 		if (prevX == -1 && prevY == -1) {
 			prevX = e.getX();
 			prevY = e.getY();
