@@ -288,10 +288,10 @@ public class Panel extends JPanel {
 			}
 		}, InputEvent.CTRL_DOWN_MASK);
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
-			private void d(int x, int y, int x2, int y2) {
-				for (int yy = y; yy < y2; yy++) {
-					for (int xx = x; xx < x2; xx++) {
-						drawRandomPixel(xx, yy);
+			private void d(int x1, int y1, int x2, int y2) {
+				for (int y = y1; y < y2; y++) {
+					for (int x = x1; x < x2; x++) {
+						drawRandomPixel(x, y);
 					}
 				}
 			}
