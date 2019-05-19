@@ -251,7 +251,7 @@ public class Panel extends JPanel {
 	 */
 	public Panel(JFrame frame) {
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			erase();
 		}
 
