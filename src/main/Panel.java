@@ -138,53 +138,53 @@ public class Panel extends JPanel {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-			int tm = (int) Math.min(System.currentTimeMillis() - showed, 128);
-			g2.setColor(new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), tm));
+			int fadeInTime = (int) Math.min(System.currentTimeMillis() - showed, 128);
+			g2.setColor(new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), fadeInTime));
 			g2.fillRoundRect(width / 2 - 250, height / 2 - 250, 500, 500, 40, 40);
 
-			int cy = height / 2 - 250;
+			int drawTextY = height / 2 - 250;
 			g2.setColor(Color.white);
 			g2.setFont(new Font("Segoe UI", 3, 60));
 			FontMetrics fm = g2.getFontMetrics();
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			String txt = "Guides";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += 30;
+			drawTextY += 30;
 
 			g2.setFont(new Font("Segoe UI", 0, 25));
 			fm = g2.getFontMetrics();
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Space: erase";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "R: change color random";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "E: reset color";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "M: see more controls";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "S: randomize stroke";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Shift + S: reset stroke";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Ctrl + S: Save your masterpiece";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			cy += fm.getHeight();
+			drawTextY += fm.getHeight();
 			txt = "Ctrl + Shift + S: Shit your masterpiece";
-			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, cy);
+			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 		}
 
 		@Override
