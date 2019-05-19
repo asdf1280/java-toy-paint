@@ -116,22 +116,22 @@ public class Panel extends JPanel {
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		g2.setColor(new Color(248, 245, 141));
-		g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight());
+		g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight()); // Draw top brown rectangle.
 
 		Random random = new Random(1);
 		for (int i = 0; i < drawnImage.getHeight(); i++) {
 			g2.setColor(new Color(228, 225, 121));
 			g2.fillOval((int) (random.nextDouble() * screenSize.width), (int) (random.nextDouble() * screenSize.height),
-					2, 2);
+					2, 2); // Draw some random shapes on image
 		}
 
 		g2.setColor(new Color(228, 225, 138));
-		for (int i = 220; i <= drawnImage.getHeight(); i += 50) {
+		for (int i = 220; i <= drawnImage.getHeight(); i += 50) { // Draw lines
 			g2.drawLine(0, i, drawnImage.getWidth(), i);
 			g2.drawLine(0, i + 1, drawnImage.getWidth(), i + 1);
 		}
 
-		g2.drawImage(material, 0, 0, screenSize.width, screenSize.height, null);
+		g2.drawImage(material, 0, 0, screenSize.width, screenSize.height, null); // Draw material image
 
 		overLay();
 		repaint();
