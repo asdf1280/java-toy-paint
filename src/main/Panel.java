@@ -183,16 +183,17 @@ public class Panel extends JPanel {
 			g2.setColor(new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), fadeInTime));
 			g2.fillRoundRect(width / 2 - 250, height / 2 - 250, 500, 500, 40, 40);
 
-			int drawTextY = height / 2 - 250;
+			int drawTextY = height / 2 - 250; // An Y location to draw guide texts at
 			g2.setColor(Color.white);
 			g2.setFont(new Font("Segoe UI", 3, 60));
 			FontMetrics fm = g2.getFontMetrics();
 			drawTextY += fm.getHeight();
-			String txt = "Guides";
+			String txt = "Guides"; // Title text
 			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			drawTextY += 30;
+			drawTextY += 30; //30px gap between title and guides
 
+			//Key guides
 			g2.setFont(new Font("Segoe UI", 0, 25));
 			fm = g2.getFontMetrics();
 			drawTextY += fm.getHeight();
