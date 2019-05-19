@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -50,6 +51,7 @@ public class Panel extends JPanel {
 	}
 
 	private BasicStroke randomStroke = new BasicStroke(1);
+
 	public void drawRandomPixel(int x, int y) {
 		currentColor = getRandomColor();
 		g2.setColor(currentColor);
@@ -94,7 +96,8 @@ public class Panel extends JPanel {
 		Random random = new Random(1);
 		for (int i = 0; i < drawnImage.getHeight(); i++) {
 			g2.setColor(new Color(228, 225, 121));
-			g2.fillOval((int) (random.nextDouble() * screenSize.width), (int) (random.nextDouble() * screenSize.height), 2, 2);
+			g2.fillOval((int) (random.nextDouble() * screenSize.width), (int) (random.nextDouble() * screenSize.height),
+					2, 2);
 		}
 
 		g2.setColor(new Color(228, 225, 138));
@@ -313,7 +316,7 @@ public class Panel extends JPanel {
 			}
 		}, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK);
 
-		addMouseListener(new MouseListener() {
+		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -324,18 +327,6 @@ public class Panel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mouseDrag(e);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
@@ -369,7 +360,8 @@ public class Panel extends JPanel {
 	public void addHotkey(int keycode, boolean release, Action a, int modifier) {
 		var obj = new Object();
 		rootPane.getActionMap().put(obj, a);
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keycode, modifier, release), obj);
+		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keycode, modifier, release),
+				obj);
 	}
 
 	public void mouseDrag(MouseEvent e) {
