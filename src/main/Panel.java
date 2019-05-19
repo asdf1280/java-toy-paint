@@ -288,7 +288,7 @@ public class Panel extends JPanel {
 			}
 		}, InputEvent.CTRL_DOWN_MASK);
 		addHotkey(KeyEvent.VK_S, false, new AbstractAction() {
-			private void d(int x1, int y1, int x2, int y2) {
+			private void fillRandomPixel(int x1, int y1, int x2, int y2) {
 				for (int y = y1; y < y2; y++) {
 					for (int x = x1; x < x2; x++) {
 						drawRandomPixel(x, y);
@@ -309,13 +309,13 @@ public class Panel extends JPanel {
 				for (int i = 0; i < parts; i++) {
 					int idx = i;
 					Thread tr = new Thread(() -> {
-						d(0, 170 + (divided * idx), drawnImage.getWidth(), 170 + (divided * idx) + divided);
+						fillRandomPixel(0, 170 + (divided * idx), drawnImage.getWidth(), 170 + (divided * idx) + divided);
 						done.t++;
 					});
 					tr.setPriority(Thread.MAX_PRIORITY);
 					tr.start();
 				}
-				d(0, 170 + (divided * parts) + divided, drawnImage.getWidth(), drawnImage.getHeight());
+				fillRandomPixel(0, 170 + (divided * parts) + divided, drawnImage.getWidth(), drawnImage.getHeight());
 			}
 		}, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK);
 
