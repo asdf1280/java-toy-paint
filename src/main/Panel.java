@@ -196,7 +196,7 @@ public class Panel extends JPanel {
 	float currentStroke = 7f;
 
 	@SuppressWarnings("serial")
-	public Panel(JFrame frm) {
+	public Panel(JFrame frame) {
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		for (int i = 0; i < 3; i++) {
 			erase();
@@ -212,7 +212,7 @@ public class Panel extends JPanel {
 			}
 		}).start();
 
-		var rootPane = frm.getRootPane();
+		var rootPane = frame.getRootPane();
 		this.rootPane = rootPane;
 		Object obj = "hello";
 		rootPane.getActionMap().put(obj, new AbstractAction() {
