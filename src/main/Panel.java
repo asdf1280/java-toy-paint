@@ -341,7 +341,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight() - 170);
+				g2.fillRect(0, 170, drawnImage.getWidth(), drawnImage.getHeight() - 170); // Randomizes the image
 				g2.setStroke(new BasicStroke(1));
 
 				int parts = Runtime.getRuntime().availableProcessors() - 1;
