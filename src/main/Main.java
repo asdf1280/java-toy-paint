@@ -4,6 +4,12 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+/**
+ * A Main class of the application.
+ * 
+ * @author User
+ *
+ */
 public class Main {
 	public Main() {
 		JFrame frm = new JFrame();
@@ -14,6 +20,7 @@ public class Main {
 		frm.pack();
 		frm.setVisible(true);
 	}
+
 	public static void main(String[] args) {
 		new Main();
 	}
