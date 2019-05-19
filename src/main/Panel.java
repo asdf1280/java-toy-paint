@@ -191,9 +191,9 @@ public class Panel extends JPanel {
 			String txt = "Guides"; // Title text
 			g2.drawString(txt, (width - fm.stringWidth(txt)) / 2, drawTextY);
 
-			drawTextY += 30; //30px gap between title and guides
+			drawTextY += 30; // 30px gap between title and guides
 
-			//Key guides
+			// Key guides
 			g2.setFont(new Font("Segoe UI", 0, 25));
 			fm = g2.getFontMetrics();
 			drawTextY += fm.getHeight();
@@ -259,42 +259,34 @@ public class Panel extends JPanel {
 			@Override
 			public void run() {
 				while (true) {
-					repaint(); //Repaint the app forever
+					repaint(); // Repaint the app forever
 				}
 			}
 		}).start();
 
 		var rootPane = frame.getRootPane();
 		this.rootPane = rootPane;
-		Object obj = new Object(); // A unique token of key.
-		rootPane.getActionMap().put(obj, new AbstractAction() {
+		addHotkey(KeyEvent.VK_SPACE, false, new AbstractAction() { // When spacebar is pressed
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				erase();
 			}
 		});
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), obj);
-		obj = new Object();
-		rootPane.getActionMap().put(obj, new AbstractAction() {
+		addHotkey(KeyEvent.VK_R, false, new AbstractAction() { // When R is pressed etc...
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentColor = new Color(getRandomColorNumber(), getRandomColorNumber(), getRandomColorNumber());
 			}
 		});
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), obj);
-
-		obj = new Object();
-		rootPane.getActionMap().put(obj, new AbstractAction() {
+		addHotkey(KeyEvent.VK_E, false, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentColor = new Color(0, 0, 0);
 			}
 		});
-		rootPane.getInputMap(JRootPane.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), obj);
-
 		addHotkey(KeyEvent.VK_M, false, new AbstractAction() {
 
 			@Override
